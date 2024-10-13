@@ -42,11 +42,11 @@ export const getUser = async ( UserID ) => {
 
 };
 
-export const createUser = async ( username ) => {
+export const createUser = async ( UserID ) => {
     const command = new PutCommand({
         TableName: "Users",
         Item: {
-            UserID: username,
+            UserID: UserID,
             foods: [],
         },
     });

@@ -1,9 +1,16 @@
 import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
+<<<<<<< HEAD
 import { fetchUsers, createUser } from "./dynamo.js";
 import * as Notifications from 'expo-notifications';
 import { registerForPushNotificationsAsync, createSNSEndpoint, checkAndScheduleNotifications } from './awsNotificationService';
+=======
+import * as Notifications from 'expo-notifications';
+import { registerForPushNotificationsAsync, createSNSEndpoint, checkAndScheduleNotifications } from './awsNotificationService';
+import { fetchUsers, getUser, createUser, addFoodItem, deleteFoodItem } from "./dynamo.js";
+
+>>>>>>> b86ea891b09be24c47811df1b83369074398aeee
 
 
 Notifications.setNotificationHandler({
@@ -66,7 +73,7 @@ app.post('/dynamo', async (req, res) => {
     }
 });
 
-app.put('/dynamo', async (req, res) => {
+app.put('/dynamo/:UserID', async (req, res) => {
     try {
         const { username, foodItem, expirationDate } = req.body;
         const response = await addFoodItem(username, foodItem, expirationDate);
