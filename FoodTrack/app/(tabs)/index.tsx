@@ -7,6 +7,7 @@ import LoginScreen from '../src/screens/loginscreen';
 import FoodShelfLifeTracker from '../src/screens/foodlist';
 import AddFoodScreen from '../src/screens/addFood';
 
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -44,6 +45,7 @@ export default function App() {
   if (!appIsReady) {
     return null;
   }
+
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
