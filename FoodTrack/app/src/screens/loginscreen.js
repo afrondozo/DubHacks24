@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const logoImage = require('../../images/FoodTrack_logo.png');
 
-const LoginScreen = ({ promptGoogleLogin, user }) => {
+const LoginScreen = ({ user }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const navigation = useNavigation();
 
-  const handleGoogleLogin = () => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: '644029368680-et9jkj1ga45a1vuab9smj22gks47jhr7.apps.googleusercontent.com',
+    webClientId: '644029368680-6eaoei958548vo0rpt8i1q2at6vcskib.apps.googleusercontent.com',
+    androidClientId: 'YOUR_ANDROID_CLIENT_ID', // Add this if you have an Android client ID
+  });
+
+  const handleGoogleLogin = async () => {
     console.log('Google login pressed');
-    promptGoogleLogin();
+    await promptAsync();
   };
 
   const handlePhoneLogin = () => {
@@ -18,8 +28,18 @@ const LoginScreen = ({ promptGoogleLogin, user }) => {
     navigation.navigate('FoodTracker');
   };
 
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { authentication } = response;
+      console.log('Google login successful');
+      // Here you would typically send the authentication.accessToken to your backend
+      // or use it to fetch the user's information from Google
+      navigation.navigate('FoodTracker');
+    }
+  }, [response, navigation]);
+
   // If user is logged in, navigate to FoodTracker
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       navigation.navigate('FoodTracker');
     }

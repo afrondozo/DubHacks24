@@ -26,7 +26,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (response?.type === 'success') {
+    if (response?.type === 'success' && response.authentication?.accessToken) {
       setAccessToken(response.authentication.accessToken);
     }
   }, [response]);

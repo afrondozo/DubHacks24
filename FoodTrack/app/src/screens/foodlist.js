@@ -3,12 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, Tou
 
 const FoodShelfLifeTracker = ({ navigation }) => {
   const [foods, setFoods] = useState([
-    { id: 1, name: 'A5 Wagyu', quantity: 2, expiresIn: 5, expirationDate: '2023-10-18' },
-    { id: 2, name: 'Yogurt', quantity: 3, expiresIn: 2, expirationDate: '2023-10-15' },
-    { id: 3, name: 'Milk', quantity: 1, expiresIn: 7, expirationDate: '2023-10-20' },
-    { id: 4, name: 'Bananas', quantity: 1, expiresIn: 1, expirationDate: '2023-10-14' },
-    { id: 5, name: 'Ice Cream', quantity: 1, expiresIn: 30, expirationDate: '2023-11-12' },
-    { id: 6, name: 'Rice', quantity: 1, expiresIn: 0, expirationDate: '2023-10-13' },
+    
   ]);
 
   const [selectedFood, setSelectedFood] = useState(null);
