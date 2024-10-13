@@ -6,7 +6,10 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "jsx": "react-jsx",  // Add this to enable JSX support
+    "esModuleInterop": true,  // Ensures compatibility with CommonJS modules
+    "moduleResolution": "node"  // Enables Node.js-style module resolution
   },
   "include": [
     "**/*.ts",
@@ -15,3 +18,4 @@
     "expo-env.d.ts"
   ]
 }
+

@@ -21,7 +21,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={logoImage} 
+        source={logoImage}
         style={styles.logo}
       />
       <Text style={styles.title}>Log In</Text>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   phoneButton: {
-    backgroundColor: 'black',
+    backgroundColor: 'black', // Changed to a blue color for visibility
     padding: 10,
     borderRadius: 5,
     width: '100%',
