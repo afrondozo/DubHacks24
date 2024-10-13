@@ -40,7 +40,7 @@ app.post('/dynamo', async (req, res) => {
     }
 });
 
-app.put('/dynamo', async (req, res) => {
+app.put('/dynamo/:UserID', async (req, res) => {
     try {
         const { username, foodItem, expirationDate } = req.body;
         const response = await addFoodItem(username, foodItem, expirationDate);
