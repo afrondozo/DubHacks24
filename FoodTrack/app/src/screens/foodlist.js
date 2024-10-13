@@ -10,7 +10,7 @@ const FoodShelfLifeTracker = ({ navigation }) => {
     { id: 5, name: 'Ice Cream', quantity: 1, expiresIn: 30, expirationDate: '2023-11-12' },
     { id: 6, name: 'Rice', quantity: 1, expiresIn: 0, expirationDate: '2023-10-13' },
   ]);
-  
+
   const [selectedFood, setSelectedFood] = useState(null);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
   const [title, setTitle] = useState("Food Shelf Life Tracker");
