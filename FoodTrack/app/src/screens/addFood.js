@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -117,4 +115,3 @@ const styles = StyleSheet.create({
 });
 
 export default AddFoodScreen;
->>>>>>> Stashed changes
