@@ -5,7 +5,6 @@ import * as Notifications from 'expo-notifications';
 import { registerForPushNotificationsAsync, createSNSEndpoint, checkAndScheduleNotifications } from './awsNotificationService';
 import { fetchUsers, getUser, createUser, addFoodItem, deleteFoodItem } from "./dynamo.js";
 
->>>>>>> 2267ce0e2491c70e06e4f6fd327b93f3da94a2a9
 
 
 Notifications.setNotificationHandler({
