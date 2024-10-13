@@ -8,7 +8,7 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/FoodTrack_logo.png",
+      "image": "./app/images/FoodTrack_logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
