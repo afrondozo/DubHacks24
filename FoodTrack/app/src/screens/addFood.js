@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const AddFoodScreen = ({ navigation, route }) => {
@@ -21,8 +21,12 @@ const AddFoodScreen = ({ navigation, route }) => {
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || expirationDate;
-    setShowDatePicker(false);
+    setShowDatePicker(Platform.OS === 'ios');
     setExpirationDate(currentDate);
+  };
+
+  const formatDate = (date) => {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   };
 
   return (
@@ -49,19 +53,26 @@ const AddFoodScreen = ({ navigation, route }) => {
       </View>
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Expiration Date:</Text>
-        <TouchableOpacity style={styles.dateButton} onPress={() => setShowDatePicker(true)}>
-          <Text>{expirationDate.toDateString()}</Text>
-        </TouchableOpacity>
-      </View>
-      {showDatePicker && (
-        <View style={styles.datePickerContainer}>
-          <DateTimePicker
-            value={expirationDate}
-            mode="date"
-            display="default"
-            onChange={onDateChange}
+        {Platform.OS === 'web' ? (
+          <input
+            type="date"
+            value={formatDate(expirationDate)}
+            onChange={(e) => setExpirationDate(new Date(e.target.value))}
+            style={styles.webDateInput}
           />
-        </View>
+        ) : (
+          <TouchableOpacity style={styles.dateButton} onPress={() => setShowDatePicker(true)}>
+            <Text>{expirationDate.toDateString()}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      {showDatePicker && Platform.OS !== 'web' && (
+        <DateTimePicker
+          value={expirationDate}
+          mode="date"
+          display="default"
+          onChange={onDateChange}
+        />
       )}
       <TouchableOpacity style={styles.addButton} onPress={handleAddFood}>
         <Text style={styles.addButtonText}>Add Food</Text>
@@ -103,9 +114,13 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
   },
-  datePickerContainer: {
-    marginTop: 10, // Add some space above the date picker
-    marginBottom: 20, // Add some space below the date picker
+  webDateInput: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 16,
+    width: '100%',
   },
   addButton: {
     backgroundColor: 'green',

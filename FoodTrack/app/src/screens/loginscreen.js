@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Platform } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  Image, 
+  StyleSheet, 
+  Platform, 
+  Keyboard, 
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  ScrollView
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -46,46 +58,56 @@ const LoginScreen = ({ user }) => {
   }, [user, navigation]);
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={logoImage}
-        style={styles.logo}
-      />
-      <Text style={styles.title}>Log In</Text>
-      
-      <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
-        <Text style={styles.googleButtonText}>Log in with Google</Text>
-      </TouchableOpacity>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <Image
+            source={logoImage}
+            style={styles.logo}
+          />
+          <Text style={styles.title}>Log In</Text>
+          
+          <TouchableOpacity style={styles.googleButton} onPress={handleGoogleLogin}>
+            <Text style={styles.googleButtonText}>Log in with Google</Text>
+          </TouchableOpacity>
 
-      <View style={styles.orContainer}>
-        <View style={styles.line} />
-        <Text style={styles.orText}>or</Text>
-        <View style={styles.line} />
-      </View>
+          <View style={styles.orContainer}>
+            <View style={styles.line} />
+            <Text style={styles.orText}>or</Text>
+            <View style={styles.line} />
+          </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your phone number"
-        value={phoneNumber}
-        onChangeText={setPhoneNumber}
-        keyboardType="phone-pad"
-        placeholderTextColor="#999"
-      />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your phone number"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            keyboardType="phone-pad"
+            placeholderTextColor="#999"
+          />
 
-      <TouchableOpacity style={styles.phoneButton} onPress={handlePhoneLogin}>
-        <Text style={styles.phoneButtonText}>Log in with Phone Number</Text>
-      </TouchableOpacity>
-    </View>
+          <TouchableOpacity style={styles.phoneButton} onPress={handlePhoneLogin}>
+            <Text style={styles.phoneButtonText}>Log in with Phone Number</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'white',
   },
   logo: {
     width: 150,
@@ -136,7 +158,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   phoneButton: {
-    backgroundColor: 'black', // Changed to a blue color for visibility
+    backgroundColor: 'black',
     padding: 10,
     borderRadius: 5,
     width: '100%',
