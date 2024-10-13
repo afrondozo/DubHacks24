@@ -4,19 +4,26 @@ import { useNavigation } from '@react-navigation/native';
 
 const logoImage = require('../../images/FoodTrack_logo.png');
 
-const LoginScreen = () => {
+const LoginScreen = ({ promptGoogleLogin, user }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const navigation = useNavigation();
 
   const handleGoogleLogin = () => {
     console.log('Google login pressed');
-    navigation.navigate('FoodTracker');
+    promptGoogleLogin();
   };
 
   const handlePhoneLogin = () => {
     console.log('Phone login pressed with number:', phoneNumber);
     navigation.navigate('FoodTracker');
   };
+
+  // If user is logged in, navigate to FoodTracker
+  React.useEffect(() => {
+    if (user) {
+      navigation.navigate('FoodTracker');
+    }
+  }, [user, navigation]);
 
   return (
     <View style={styles.container}>
