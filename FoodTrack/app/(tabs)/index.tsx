@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../src/screens/loginscreen';
 import FoodShelfLifeTracker from '../src/screens/foodlist';
+import AddFoodScreen from '../src/screens/addFood';
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -29,26 +31,21 @@ export default function App() {
   }, []);
 
   return (
-   
-      <Stack.Navigator initialRouteName="FoodList">
+    
+      <Stack.Navigator initialRouteName= "FoodTracker">
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} 
+          name="FoodTracker" 
+          component={FoodShelfLifeTracker} 
           options={{ headerShown: false }}
         />
-        {/* Add your other screens here */}
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="FoodList" component={FoodShelfLifeTracker} />
+        <Stack.Screen 
+          name="AddFood" 
+          component={AddFoodScreen} 
+          options={{ title: 'Add New Food' }}
+        />
       </Stack.Navigator>
     
   );
-}
+};
 
-// Placeholder for HomeScreen, replace with your actual HomeScreen component
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}

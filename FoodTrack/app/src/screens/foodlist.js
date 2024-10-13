@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TouchableWithoutFeedback, TextInput } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const FoodShelfLifeTracker = () => {
+
+const Stack = createStackNavigator();
+
+const FoodShelfLifeTracker = ({ navigation }) => {
   const [foods, setFoods] = useState([
     { id: 1, name: 'A5 Wagyu', quantity: 2, expiresIn: 5 },
     { id: 2, name: 'Yogurt', quantity: 3, expiresIn: 2 },
@@ -13,9 +17,10 @@ const FoodShelfLifeTracker = () => {
 
   const [selectedFood, setSelectedFood] = useState(null);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
+  const [title, setTitle] = useState("Food Shelf Life Tracker");
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
-  const handleAddFood = () => {
-    const newFood = { id: Date.now(), name: 'New Food', quantity: 1, expiresIn: 10 };
+  const handleAddFood = (newFood) => {
     setFoods((prevFoods) => [...prevFoods, newFood]);
   };
 
@@ -48,6 +53,7 @@ const FoodShelfLifeTracker = () => {
     if (!isRemoveMode) {
       setSelectedFood(null);
     }
+    setIsEditingTitle(false);
   };
 
   const getBackgroundColor = (expiresIn) => {
@@ -56,10 +62,30 @@ const FoodShelfLifeTracker = () => {
     return '#90ee90'; // Light green
   };
 
+  const handleTitlePress = () => {
+    setIsEditingTitle(true);
+  };
+
+  const handleTitleChange = (newTitle) => {
+    setTitle(newTitle);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleBackgroundPress}>
       <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>Li Fam Shelf</Text>
+        {isEditingTitle ? (
+          <TextInput
+            style={styles.titleInput}
+            value={title}
+            onChangeText={handleTitleChange}
+            onBlur={() => setIsEditingTitle(false)}
+            autoFocus
+          />
+        ) : (
+          <TouchableOpacity onPress={handleTitlePress}>
+            <Text style={styles.title}>{title}</Text>
+          </TouchableOpacity>
+        )}
         
         <ScrollView contentContainerStyle={styles.scrollContent}>
           {foods.map((food) => (
@@ -79,7 +105,6 @@ const FoodShelfLifeTracker = () => {
                 </View>
               )}
               <Text style={styles.foodName}>{food.name}</Text>
-              
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -96,7 +121,7 @@ const FoodShelfLifeTracker = () => {
           <View style={styles.actions}>
             <TouchableOpacity 
               style={[styles.button, isRemoveMode ? styles.confirmButton : styles.addButton]} 
-              onPress={isRemoveMode ? handleConfirmRemove : handleAddFood}
+              onPress={isRemoveMode ? handleConfirmRemove : () => navigation.navigate('AddFood', { onAddFood: handleAddFood })}
               disabled={isRemoveMode && !selectedFood}
             >
               <Text style={styles.buttonText}>{isRemoveMode ? 'Confirm Remove' : 'Add Food'}</Text>
@@ -118,7 +143,6 @@ const FoodShelfLifeTracker = () => {
     </TouchableWithoutFeedback>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -129,6 +153,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 20,
     textAlign: 'center',
+  },
+  titleInput: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginVertical: 20,
+    textAlign: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
   },
   scrollContent: {
     padding: 15,
@@ -154,10 +186,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     textAlign: 'center',
-  },
-  expiryText: {
-    fontSize: 16,
-    marginTop: 5,
   },
   quantityCircle: {
     position: 'absolute',
