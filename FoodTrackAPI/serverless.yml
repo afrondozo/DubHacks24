@@ -1,0 +1,26 @@
+service: express-app
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-2  # Change to your preferred AWS region
+  environment:
+    TABLE_NAME: Users  # Change to your DynamoDB table name
+
+functions:
+  app:
+    handler: app.handler
+    events:
+      - http:
+          path: /
+          method: any
+      - http:
+          path: /U
+          method: any
+
+plugins:
+  - serverless-http
+
+custom:
+  serverless-http:
+    framework: express
