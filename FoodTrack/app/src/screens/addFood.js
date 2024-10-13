@@ -52,15 +52,17 @@ const AddFoodScreen = ({ navigation, route }) => {
         <TouchableOpacity style={styles.dateButton} onPress={() => setShowDatePicker(true)}>
           <Text>{expirationDate.toDateString()}</Text>
         </TouchableOpacity>
-        {showDatePicker && (
+      </View>
+      {showDatePicker && (
+        <View style={styles.datePickerContainer}>
           <DateTimePicker
             value={expirationDate}
             mode="date"
             display="default"
             onChange={onDateChange}
           />
-        )}
-      </View>
+        </View>
+      )}
       <TouchableOpacity style={styles.addButton} onPress={handleAddFood}>
         <Text style={styles.addButtonText}>Add Food</Text>
       </TouchableOpacity>
@@ -100,6 +102,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     alignItems: 'center',
+  },
+  datePickerContainer: {
+    marginTop: 10, // Add some space above the date picker
+    marginBottom: 20, // Add some space below the date picker
   },
   addButton: {
     backgroundColor: 'green',

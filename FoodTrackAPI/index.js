@@ -2,7 +2,34 @@ import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
 import { fetchUsers, createUser } from "./dynamo.js";
+import * as Notifications from 'expo-notifications';
+import { registerForPushNotificationsAsync, createSNSEndpoint, checkAndScheduleNotifications } from './awsNotificationService';
 
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
+export default function App() {
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [snsEndpointArn, setSnsEndpointArn] = useState('');
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+  }, []);
+
+  useEffect(() => {
+    if (expoPushToken) {
+      createSNSEndpoint(expoPushToken).then(endpointArn => setSnsEndpointArn(endpointArn));
+    }
+  }, [expoPushToken]);
+
+  // ... rest of your App component
+}
 const app = express();
 const port = 3001;
 
