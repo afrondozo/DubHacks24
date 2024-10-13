@@ -1,42 +1,9 @@
 import express from "express";
 import serverless from "serverless-http";
 import cors from "cors";
-<<<<<<< HEAD
-import { fetchUsers, createUser } from "./dynamo.js";
-import * as Notifications from 'expo-notifications';
-import { registerForPushNotificationsAsync, createSNSEndpoint, checkAndScheduleNotifications } from './awsNotificationService';
-=======
-import * as Notifications from 'expo-notifications';
-import { registerForPushNotificationsAsync, createSNSEndpoint, checkAndScheduleNotifications } from './awsNotificationService';
 import { fetchUsers, getUser, createUser, addFoodItem, deleteFoodItem } from "./dynamo.js";
 
->>>>>>> b86ea891b09be24c47811df1b83369074398aeee
 
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
-
-export default function App() {
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [snsEndpointArn, setSnsEndpointArn] = useState('');
-
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-  }, []);
-
-  useEffect(() => {
-    if (expoPushToken) {
-      createSNSEndpoint(expoPushToken).then(endpointArn => setSnsEndpointArn(endpointArn));
-    }
-  }, [expoPushToken]);
-
-  // ... rest of your App component
-}
 const app = express();
 const port = 3001;
 
@@ -55,9 +22,10 @@ app.get('/dynamo/:UserID', async (req, res) => {
         const { UserID } = req.params;
         const foods = await getUser(UserID);
 
-        res.send(foods)
+        res.send(foods);
     } catch (err) {
-        res.status(400).send(`Error fetching users: ${err}`)
+        console.error('Error fetching user: ', err);
+        res.status(400).send(`Error fetching users: ${err}`);
     }
   });
 

@@ -1,15 +1,69 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, SafeAreaView, TouchableWithoutFeedback, TextInput, Animated } from 'react-native';
+import axios from 'axios';
 
 const FoodShelfLifeTracker = ({ navigation }) => {
-  const [foods, setFoods] = useState([
-    { id: 1, name: 'A5 Wagyu', quantity: 2, expiresIn: 5, expirationDate: '2023-10-18' },
-    { id: 2, name: 'Yogurt', quantity: 3, expiresIn: 2, expirationDate: '2023-10-15' },
-    { id: 3, name: 'Milk', quantity: 1, expiresIn: 7, expirationDate: '2023-10-20' },
-    { id: 4, name: 'Bananas', quantity: 1, expiresIn: 1, expirationDate: '2023-10-14' },
-    { id: 5, name: 'Ice Cream', quantity: 1, expiresIn: 30, expirationDate: '2023-11-12' },
-    { id: 6, name: 'Rice', quantity: 1, expiresIn: 0, expirationDate: '2023-10-13' },  
-  ]);
+
+  //   const [userData, setUserData] = useState(null);
+  //   const [error, setError] = useState(null);
+  
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('https://boiloxn7zk67jmq5gagdc557nm0emxcy.lambda-url.us-east-2.on.aws/dynamo/testguy@gmail.com');
+  //       console.log(response.data);
+  //       setUserData(response.data);
+  //     } catch (err) {
+  //       setError(`Error fetching data: ${err.message}`);
+  //     }
+  //   };
+
+  //   fetchData();
+  //   console.log("UserData:");
+  //   console.log(userData);
+      
+    
+
+  // const [foods, setFoods] = useState([
+  //   { id: 1, name: 'A5 Wagyu', quantity: 2, expiresIn: 5, expirationDate: '2023-10-18' },
+  //   { id: 2, name: 'Yogurt', quantity: 3, expiresIn: 2, expirationDate: '2023-10-15' },
+  //   { id: 3, name: 'Milk', quantity: 1, expiresIn: 7, expirationDate: '2023-10-20' },
+  //   { id: 4, name: 'Bananas', quantity: 1, expiresIn: 1, expirationDate: '2023-10-14' },
+  //   { id: 5, name: 'Ice Cream', quantity: 1, expiresIn: 30, expirationDate: '2023-11-12' },
+  //   { id: 6, name: 'Rice', quantity: 1, expiresIn: 0, expirationDate: '2023-10-13' },  
+  //   //userData
+  // ]);
+  // console.log("Should work");
+  // console.log(foods);
+  const [foods, setFoods] = useState([]);  // Initialize as an empty array
+  const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null);
+
+  // fetchData function wrapped inside useEffect
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://boiloxn7zk67jmq5gagdc557nm0emxcy.lambda-url.us-east-2.on.aws/dynamo/athena.bao.l@gmail.com');
+        
+        console.log("Fetched Data:", response.data);
+        
+        // Assuming the fetched data has a 'foods' field, update the foods state
+        if (response.data) {
+          setFoods(response.data);
+        }
+        
+        setUserData(response.data);
+      } catch (err) {
+        setError(`Error fetching data: ${err.message}`);
+      }
+    };
+
+    fetchData();
+  }, []);  // Empty dependency array means this effect runs once when the component mounts
+
+  // Debugging/logging the state
+  console.log("UserData:", userData);
+  console.log("Foods:", foods);
 
   const [selectedFood, setSelectedFood] = useState(null);
   const [isRemoveMode, setIsRemoveMode] = useState(false);
