@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 20,
     backgroundColor: 'white',
+    
   },
   title: {
     fontSize: 24,
