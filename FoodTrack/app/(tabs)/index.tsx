@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../src/screens/loginscreen';
-
+import FoodShelfLifeTracker from '../src/screens/foodlist';
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
 
   return (
    
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="FoodList">
         <Stack.Screen 
           name="Login" 
           component={LoginScreen} 
@@ -38,6 +38,7 @@ export default function App() {
         />
         {/* Add your other screens here */}
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="FoodList" component={FoodShelfLifeTracker} />
       </Stack.Navigator>
     
   );
